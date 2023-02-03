@@ -41,7 +41,7 @@ jobs:
           ./build/riscv64-nemu-interpreter -b ./ready-to-run/linux.bin
           make clean-all
 
-      - name: test boot linux
+      - name: test my cases
         run: |
           export NEMU_HOME=$(pwd)
           # test dirty
