@@ -186,6 +186,7 @@ int get_data_mmu_state() {
 
 static inline int update_mmu_state_internal(bool ifetch) {
   uint32_t mode = (mstatus->mprv && (!ifetch) ? mstatus->mpp : cpu.mode);
+  Logtb("update_mmu_state_internal = %d %d %d %d", (int)ifetch, mode, MODE_M, satp->mode);
   if (mode < MODE_M) {
     assert(satp->mode == 0 || satp->mode == 8);
     if (satp->mode == 8) return MMU_TRANSLATE;
@@ -195,6 +196,7 @@ static inline int update_mmu_state_internal(bool ifetch) {
 
 int update_mmu_state() {
   ifetch_mmu_state = update_mmu_state_internal(true);
+  Logtb("ifetch_mmu_state = %d", ifetch_mmu_state);
   int data_mmu_state_old = data_mmu_state;
   data_mmu_state = update_mmu_state_internal(false);
   return (data_mmu_state ^ data_mmu_state_old) ? true : false;

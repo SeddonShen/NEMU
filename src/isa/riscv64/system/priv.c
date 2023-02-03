@@ -383,7 +383,10 @@ static inline void csr_write(word_t *dest, word_t src) {
     update_mstatus_sd();
   }
 
-  if (is_write(mstatus) || is_write(satp)) { update_mmu_state(); }
+  if (is_write(mstatus) || is_write(satp)) { 
+    Logm("update_mmu_state");
+    update_mmu_state(); 
+  }
   if (is_write(satp)) { mmu_tlb_flush(0); } // when satp is changed(asid | ppn), flush tlb.
   if (is_write(mstatus) || is_write(sstatus) || is_write(satp) ||
       is_write(mie) || is_write(sie) || is_write(mip) || is_write(sip)) {
@@ -439,7 +442,8 @@ static word_t priv_instr(uint32_t op, const rtlreg_t *src) {
       if (mstatus->mpp != MODE_M) { mstatus->mprv = 0; }
       mstatus->mpp = MODE_U;
       update_mmu_state();
-      Loge("Executing mret to 0x%lx", mepc->val);
+      Logtb("Now mode = %d", 1);
+      Loge("Executing1 mret to 0x%lx", mepc->val);
       return mepc->val;
       break;
 #ifdef CONFIG_RV_SVINVAL
