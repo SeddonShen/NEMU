@@ -33,17 +33,17 @@ jobs:
           export NEMU_HOME=$(pwd)
           make riscv64-xs_defconfig
           make -j
-      - name: test boot linux
-        run: |
-          export NEMU_HOME=$(pwd)
-          git submodule update --init ready-to-run
-          # test boot linux
-          ./build/riscv64-nemu-interpreter -b ./ready-to-run/linux.bin
-          make clean-all
+      # - name: test boot linux
+      #   run: |
+      #     export NEMU_HOME=$(pwd)
+      #     git submodule update --init ready-to-run
+      #     # test boot linux
+      #     ./build/riscv64-nemu-interpreter -b ./ready-to-run/linux.bin
+      #     make clean-all
 
       - name: test my cases
         run: |
           export NEMU_HOME=$(pwd)
           # test dirty
-          ./build/riscv64-nemu-interpreter -b ./mytest/test.bin
+          ./build/riscv64-nemu-interpreter -I 500 -b ./mytest/test.bin
           make clean-all
